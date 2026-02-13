@@ -4,6 +4,7 @@ import (
 	"golang_blog/config"
 	"golang_blog/routes"
 	"log"
+	"os"
 
 	"github.com/joho/godotenv"
 
@@ -39,8 +40,13 @@ func main() {
 	routes.SetupRoutes(r)
 
 	// 启动服务器
-	log.Println("服务器启动在 http://localhost:8080")
-	if err := r.Run(":8080"); err != nil {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Println("服务器启动在 http://localhost:" + port)
+	if err := r.Run(":" + port); err != nil {
 		log.Fatal("服务器启动失败:", err)
 	}
 }
